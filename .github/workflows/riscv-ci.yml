@@ -1,0 +1,22 @@
+name: RISC-V CI
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: [self-hosted, banana-pi-f3]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y gcc make git
+
+      - name: Build
+        run: |
+          make clean
+          make all
+
+      - name: Test
+        run: make testo
+
