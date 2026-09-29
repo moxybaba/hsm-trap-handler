@@ -1,0 +1,23 @@
+mkdir -p build
+gcc -Wall -Wextra -O0 -g -Isrc -c src/hsm.c -o build/hsm_host.o
+gcc -Wall -Wextra -O0 -g -Isrc -c test/test_hsm_matrix.c -o build/test_hsm_matrix.o
+gcc build/hsm_host.o build/test_hsm_matrix.o -o build/hsm_matrix_test
+./build/hsm_matrix_test
+[PASS] base: STOPPED -> START_PENDING
+[PASS] base: START_PENDING -> STARTED
+[PASS] base: STARTED -> STOP_PENDING
+[PASS] base: STOP_PENDING -> STOPPED
+[PASS] base: STARTED -> SUSPEND_PENDING
+[PASS] base: SUSPEND_PENDING -> SUSPENDED
+[PASS] base: SUSPENDED -> RESUME_PENDING
+[PASS] base: RESUME_PENDING -> STARTED
+[PASS] family A: hart_start from STARTED is rejected
+[PASS] family A: repeated hart_start from START_PENDING is rejected
+[PASS] family A: hart_stop from SUSPENDED is rejected
+[PASS] family A: hart_suspend from STOPPED is rejected
+[PASS] family A: wake from STARTED is rejected
+[PASS] family C: completion before initiating request is rejected
+[PASS] family C: duplicate boot completion is rejected
+[PASS] family B: competing cross-hart starts have one winner
+
+0 failure(s)
