@@ -15,8 +15,8 @@ jobs:
       - name: Build
         run: |
           make clean
-          make all
+          make all CROSS_COMPILE=
 
       - name: Test
-        run: make testo
+        run: make test
 
