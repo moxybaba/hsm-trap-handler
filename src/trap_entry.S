@@ -66,13 +66,16 @@ trap_entry:
     csrr    t0, mstatus
     sd      t0, 33*8(sp)
 
-    mv      a0, sp             # a0 = pointer to trap frame, arg to trap_handler
+        mv      a0, sp             # a0 = pointer to trap frame
     call    trap_handler
 
     ld      t0, 32*8(sp)
     csrw    mepc, t0
     ld      t0, 33*8(sp)
     csrw    mstatus, t0
+
+    addi    t0, sp, FRAME_SIZE # trap stack top
+    csrw    mscratch, t0       # mscratch = trap stack top again
 
     ld      x1,  1*8(sp)
     ld      x3,  3*8(sp)
@@ -105,8 +108,6 @@ trap_entry:
     ld      x30, 30*8(sp)
     ld      x31, 31*8(sp)
 
-    ld      x2,  2*8(sp)       # restore original sp
-    addi    sp, sp, FRAME_SIZE
-    csrrw   sp, mscratch, sp  # restore mscratch to point at trap stack again
+    ld      sp,  2*8(sp)       # restore interrupted sp last
 
     mret
